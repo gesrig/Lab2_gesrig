@@ -12,13 +12,6 @@
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_main" />
@@ -31,14 +24,14 @@
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_dialog_email" />
 
-    <android.support.v7.widget.Toolbar
+<!--    <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/black"
         android:theme="?attr/actionBarTheme"
         android:minHeight="?attr/actionBarSize"
         android:id="@+id/toolbar2"
-        app:popupTheme="@android:color/background_dark" />
+        app:popupTheme="@android:color/background_dark" />-->
 
     <TextView
         android:text="CS60333"
@@ -47,13 +40,6 @@
         android:id="@+id/textView4"
         android:textSize="36sp"
         android:textColor="@color/colorAccent"/>
-
-    <ImageView
-        android:layout_width="270dip"
-        android:layout_marginLeft="68dip"
-        android:layout_height="545dp"
-        app:srcCompat="@drawable/notredamefightingirish"
-        android:id="@+id/imageView" />
 
     <TextView
         android:text="Notre Dame IN"
@@ -74,5 +60,12 @@
         android:id="@+id/textView5"
         android:textSize="30sp"
         android:textColor="@color/colorYell"/>
+
+    <ImageView
+        android:layout_width="270dip"
+        android:layout_marginLeft="68dip"
+        android:layout_height="545dp"
+        app:srcCompat="@drawable/notredamefightingirish"
+        android:id="@+id/imageView" />
 
 </android.support.design.widget.CoordinatorLayout>
