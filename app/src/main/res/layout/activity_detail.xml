@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1">
@@ -7,33 +8,131 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="70dp"></LinearLayout>
+        android:layout_height="70dp"
+        android:weightSum="1"
+        android:layout_weight="0.08">
 
-    <LinearLayout
-        android:orientation="vertical"
+        <TextView
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/MatchDate"
+            android:layout_weight="0.43"
+            android:textSize="18sp" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/MatchLocation"
+            android:layout_weight="0.43"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="114dp"
-        android:layout_weight="0.03"></LinearLayout>
+        android:layout_height="201dp"
+        android:layout_weight="0.42">
 
-    <TableLayout
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="22dp"
+            android:id="@+id/FinalScore"
+            android:textSize="30sp" />
+
+        <TextView
+            android:text="Final"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/otherTeam"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/textView6"
+            android:textSize="24sp" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/awayMascot"
+            android:textSize="30sp"
+            android:layout_alignBaseline="@+id/textView10"
+            android:layout_alignBottom="@+id/textView10"
+            android:layout_alignParentEnd="true" />
+
+        <ImageView
+            app:srcCompat="@drawable/fsuseminoles"
+            android:id="@+id/otherTeam"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+
+        <ImageView
+            app:srcCompat="@drawable/notredamefightingirish"
+            android:id="@+id/NotreDame"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/awayTeam"
+            android:textSize="24sp"
+            android:layout_above="@+id/textView10"
+            android:layout_alignStart="@+id/otherTeam" />
+
+        <TextView
+            android:text="Notre Dame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="23dp"
+            android:id="@+id/textView9"
+            android:textSize="24sp"
+            android:layout_below="@+id/NotreDame"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:text="19-7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView12"
+            android:textSize="18sp"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/FinalScore"
+            android:layout_below="@+id/textView10" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/awayRecord"
+            android:textSize="18sp"
+            android:layout_below="@+id/awayMascot"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:text="Fighting Irish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView10"
+            android:textSize="30sp"
+            android:layout_below="@+id/textView9"
+            android:layout_alignParentStart="true" />
+
+    </RelativeLayout>
+
+    <Button
+        android:text="CAMERA"
         android:layout_width="match_parent"
-        android:layout_height="282dp">
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </TableLayout>
+        android:layout_height="wrap_content"
+        android:id="@+id/CameraButton"
+        android:layout_weight="0.08" />
 
 </LinearLayout>
