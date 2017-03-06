@@ -3,8 +3,13 @@ package com.example.gregoryesrig24.lab2_gesrig;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +21,13 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import static com.example.gregoryesrig24.lab2_gesrig.R.layout.activity_detail;
 
@@ -46,7 +57,12 @@ public class DetailActivity extends Activity {
         super.onCreate(bundle);
 
         setContentView(R.layout.activity_detail);
-        String[] matchItem = getIntent().getStringArrayExtra("gameinfo");
+        bundle = getIntent().getExtras();
+        Team matchItem = (Team) bundle.getSerializable("gameinfo");
+
+
+//        setContentView(R.layout.activity_detail);
+//        Team matchItem = getIntent().getStringArrayExtra("gameinfo");
 
 
         //View activity_detail = activityInflater.inflate(R.layout.activity_detail, parent, false);
@@ -54,59 +70,94 @@ public class DetailActivity extends Activity {
 
 
         MatchDate = (TextView) findViewById(R.id.MatchDate);
-        MatchDate.setText(matchItem[2]);
+        MatchDate.setText(matchItem.getGameDate());
         MatchLocation = (TextView) findViewById(R.id.MatchLocation);
-        MatchLocation.setText(matchItem[4]);
+        MatchLocation.setText(matchItem.getTeamArena());
         awayTeam = (TextView) findViewById(R.id.awayTeam);
-        awayTeam.setText(matchItem[1]);
+        awayTeam.setText(matchItem.getTeamName());
         awayMascot = (TextView) findViewById(R.id.awayMascot);
-        awayMascot.setText(matchItem[6]);
+        awayMascot.setText(matchItem.getTeamMascot());
         awayRecord = (TextView) findViewById(R.id.awayRecord);
-        awayRecord.setText(matchItem[5]);
+        awayRecord.setText(matchItem.getTeamRecord());
         finalScore = (TextView) findViewById(R.id.FinalScore);
-        finalScore.setText(matchItem[3]);
+        finalScore.setText(matchItem.getGameScore());
         NotreDame = (ImageView) findViewById(R.id.NotreDame);
         NotreDame.setImageResource(R.drawable.notredamefightingirish);
- /*
-        TextView MatchDate = (TextView) activity_detail.findViewById(R.id.MatchDate);
-        TextView MatchLocation = (TextView) activity_detail.findViewById(R.id.MatchLocation);
-        TextView awayTeam = (TextView) activity_detail.findViewById(R.id.awayTeam);
-        TextView awayMascot = (TextView) activity_detail.findViewById(R.id.awayMascot);
-        TextView awayRecord = (TextView) activity_detail.findViewById(R.id.awayRecord) ;
-        TextView finalScore = (TextView) activity_detail.findViewById(R.id.FinalScore) ;
-        MatchDate.setText(matchItem[2]);
-        MatchLocation.setText(matchItem[4]);
-        awayTeam.setText(matchItem[1]);
-        awayMascot.setText(matchItem[6]);
-        awayRecord.setText(matchItem[5]);
-        finalScore.setText(matchItem[3]);
-*/
+
         ImageView teamLogo = (ImageView) findViewById(R.id.otherTeam);
-        String mDrawableName = matchItem[0];
-        //int resID = getContext().getResources().getIdentifier(mDrawableName, "drawable", getContext().getPackageName());
-        int resID = Integer.parseInt(mDrawableName);
+        //String mDrawableName = matchItem.getTeamLogo();
+        String mDrawableName = matchItem.getTeamLogo();
+        Log.d("MyActivity", mDrawableName);
+        int resID = getApplicationContext().getResources().getIdentifier(mDrawableName, "drawable", getPackageName());
+        //int resID = Integer.parseInt(mDrawableName);
 
         teamLogo.setImageResource(resID);
 
-        Button btnOk = (Button) findViewById(R.id.CameraButton);
-        View.OnClickListener clickListener = new View.OnClickListener() {
+        final Button btnOk = (Button) findViewById(R.id.CameraButton);
+        final View.OnClickListener clickListener = new View.OnClickListener() {
+            static final int CAMERA_REQUEST = 1;
+
             @Override
             public void onClick(View v) {
-                Intent newIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivity(newIntent);
 
+
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivity(cameraIntent);
+                File PictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                String pictureName = getPictureName();
+                File imageFile = new File(PictureDirectory, pictureName);
+                Uri pictureUri = Uri.fromFile(imageFile);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, pictureUri);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+            };
+
+            private String getPictureName() {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+                String timestamp = sdf.format(new Date());
+                return "BestMoments" + timestamp + ".jpg";
+            }
+
+            protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+                if (resultCode == RESULT_OK) {
+                    if (requestCode == CAMERA_REQUEST) {
+                        Intent photoGalleryIntent = new Intent(Intent.ACTION_PICK);
+                        File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                        photoGalleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+                        String pictureDirectoryPath = pictureDirectory.getPath();
+
+                        Uri imageUri = Uri.parse(pictureDirectoryPath);
+
+                        InputStream inputStream;
+                        try {
+                            inputStream = getContentResolver().openInputStream(imageUri);
+
+                            Bitmap image = BitmapFactory.decodeStream(inputStream);
+                            ImageView takenPhoto = (ImageView) findViewById(R.id.takenPhoto);
+                            takenPhoto.setImageBitmap(image);
+
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }
 
             }
-        };
-
+            };
         btnOk.setOnClickListener(clickListener);
+        //btnOk.onActivityResult()
+
+
+        }
 
 
 
 
-
-    }
 
 
 
 }
+
+
+

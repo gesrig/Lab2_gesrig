@@ -17,6 +17,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static com.example.gregoryesrig24.lab2_gesrig.R.id.FinalScore;
@@ -34,26 +35,37 @@ public class MainActivity extends AppCompatActivity {
        // String[] teamnames = {"Ohio State", "Florida State", "Wake Forest", "Boston College", "North Carolina State", "Georgia Tech","North Virginia", "Chicago Sate"};
         //String[] gamedates = {"Feb.11", "Feb. 14th", "Feb. 18th", "Feb 26th", "March. 1", "March 4th", "March 7th", "March 16th"};
 
-        String[] OSU = {Integer.toString(R.drawable.osubuckeys), "Ohio State", "Feb. 11", "82-86", "American Airlines Center, Columbus OH", "10-10", "Buckeyes"};
-        String[] FSU = {Integer.toString(R.drawable.fsuseminoles), "Florida State", "Feb. 14th", "69-68", "Thunder Dome, Tallahasse FL", "10-10", "seminoles"};
-        String[] WF = {Integer.toString(R.drawable.wakeforest),"Wake Forest", "Feb. 18th", "75-67", "Pauley Pavilion, Durham NC", "10-10", "Devils"};
-        String[] BC = {Integer.toString(R.drawable.bostcollege), "Boston College", "Feb. 26th", "88-87 OT", "Patriots Stadium, Bostom MA", "10-10", "Eagles"};
-        String[] NCSU = {Integer.toString(R.drawable.ncstate), "NCSU" , "March 1st", "76-59", "North Carolina Pavilion, Charlottesvile NC", "10-10", "Yellow Jackets"};
-        String[] GT = {Integer.toString(R.drawable.gtech), "Georgia Tech", "March 4th", "88-79", "Purcell Pavilion, IN", "10-10", "Yellow Jackets"};
-        String[] NV = {Integer.toString(R.drawable.nova), "NOVO", "March 7th", "54-88", "Community Center Church, Washington DC", "10-10", "Wolverines"};
-        String[] CSU = {Integer.toString(R.drawable.chicagostate), "Chicago State", "March 16th", "69-0", "This isn't a real school", "10-10", "Dragons"};
+//        String[] OSU = {Integer.toString(R.drawable.osubuckeys), "Ohio State", "Feb. 11", "82-86", "American Airlines Center, Columbus OH", "10-10", "Buckeyes"};
+//        String[] FSU = {Integer.toString(R.drawable.fsuseminoles), "Florida State", "Feb. 14th", "69-68", "Thunder Dome, Tallahasse FL", "10-10", "seminoles"};
+//        String[] WF = {Integer.toString(R.drawable.wakeforest),"Wake Forest", "Feb. 18th", "75-67", "Pauley Pavilion, Durham NC", "10-10", "Devils"};
+//        String[] BC = {Integer.toString(R.drawable.bostcollege), "Boston College", "Feb. 26th", "88-87 OT", "Patriots Stadium, Bostom MA", "10-10", "Eagles"};
+//        String[] NCSU = {Integer.toString(R.drawable.ncstate), "NCSU" , "March 1st", "76-59", "North Carolina Pavilion, Charlottesvile NC", "10-10", "Yellow Jackets"};
+//        String[] GT = {Integer.toString(R.drawable.gtech), "Georgia Tech", "March 4th", "88-79", "Purcell Pavilion, IN", "10-10", "Yellow Jackets"};
+//        String[] NV = {Integer.toString(R.drawable.nova), "NOVO", "March 7th", "54-88", "Community Center Church, Washington DC", "10-10", "Wolverines"};
+//        String[] CSU = {Integer.toString(R.drawable.chicagostate), "Chicago State", "March 16th", "69-0", "This isn't a real school", "10-10", "Dragons"};
 
-        final ArrayList<String[]> gameinfo = new ArrayList<String[]>();
-        gameinfo.add(OSU);
-        gameinfo.add(FSU);
-        gameinfo.add(WF);
-        gameinfo.add(BC);
-        gameinfo.add(NCSU);
-        gameinfo.add(GT);
-        gameinfo.add(NV);
-        gameinfo.add(CSU);
+          //final ArrayList<Team> gameinfo = new ArrayList<Team>();
+//        Team team1 = new Team(new String[]{"osubuckeys", "Ohio State", "Feb. 11", "82-86", "American Airlines Center, Columbus OH", "10-10", "Buckeyes"});
+//        Team team2 = new Team(new String[] {"fsuseminoles", "Florida State", "Feb. 14th", "69-68", "Thunder Dome, Tallahasse FL", "10-10", "seminoles"});
+//        Team team3 = new Team(new String [] {"wakeforest","Wake Forest", "Feb. 18th", "75-67", "Pauley Pavilion, Durham NC", "10-10", "Devils"});
+//        Team team4 = new Team(new String [] {"bostcollege", "Boston College", "Feb. 26th", "88-87 OT", "Patriots Stadium, Bostom MA", "10-10", "Eagles"});
+//        Team team5 = new Team(new String[] {"ncstate", "NCSU" , "March 1st", "76-59", "North Carolina Pavilion, Charlottesvile NC", "10-10", "Yellow Jackets"});
+//        Team team6 = new Team(new String [] {"gtech", "Georgia Tech", "March 4th", "88-79", "Purcell Pavilion, IN", "10-10", "Yellow Jackets"});
+//        Team team7 = new Team(new String [] {"nova", "NOVO", "March 7th", "54-88", "Community Center Church, Washington DC", "10-10", "Wolverines"});
+//        Team team8 = new Team(new String [] {"chicagostate", "Chicago State", "March 16th", "69-0", "This isn't a real school", "10-10", "Dragons"});
+//        gameinfo.add(team1);
+//        gameinfo.add(team2);
+//        gameinfo.add(team3);
+//        gameinfo.add(team4);
+//        gameinfo.add(team5);
+//        gameinfo.add(team6);
+//        gameinfo.add(team7);
+//        gameinfo.add(team8);
 
+//Integer.toString(R.drawable.chicagostate)
 
+        MyCsvFileReader reader = new MyCsvFileReader(getApplicationContext());
+        final ArrayList<Team> gameinfo = reader.readCsvFile(R.raw.schedule);
 
         ScheduleAdapter scheduleAdapter = new ScheduleAdapter(this, gameinfo);
         final ListView scheduleListView = (ListView) findViewById(R.id.scheduleListView);
@@ -65,8 +77,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this , DetailActivity.class);
-                String[] strings = gameinfo.get(position);
-                intent.putExtra("gameinfo", strings);
+                Bundle bundle = new Bundle();
+                Team objects = gameinfo.get(position);
+                bundle.putSerializable("gameinfo", objects);
+                intent.putExtras(bundle);
+                intent.setClass(MainActivity.this, DetailActivity.class);
                 startActivity(intent);
 
             }

@@ -15,24 +15,24 @@ import java.util.ArrayList;
  * Created by gregoryesrig24 on 2/8/17.
  */
 
-public class ScheduleAdapter extends ArrayAdapter<String[]> {
-    ScheduleAdapter (Context context, ArrayList<String[]> schedule) {
+public class ScheduleAdapter extends ArrayAdapter<Team> {
+    ScheduleAdapter (Context context, ArrayList<Team> schedule) {
         super(context, R.layout.activity_detail, schedule);
     }
     public View getView (int position, View convertView, ViewGroup parent) {
         LayoutInflater scheduleInflater = LayoutInflater.from(getContext());
         View scheduleView = scheduleInflater.inflate(R.layout.schedule_item, parent, false);
 
-        String[] matchItem = getItem(position);
+        Team matchItem = getItem(position);
         TextView teamName = (TextView) scheduleView.findViewById(R.id.TeamName);
         TextView gameDate = (TextView) scheduleView.findViewById(R.id.GameDate);
-        teamName.setText(matchItem[1]);
-        gameDate.setText(matchItem[2]);
+        teamName.setText(matchItem.getTeamName());
+        gameDate.setText(matchItem.getGameDate());
 
         ImageView teamLogo = (ImageView) scheduleView.findViewById(R.id.teamLogo);
-        String mDrawableName = matchItem[0];
-        //int resID = getContext().getResources().getIdentifier(mDrawableName, "drawable", getContext().getPackageName());
-        int resID = Integer.parseInt(mDrawableName);
+        String mDrawableName = matchItem.getTeamLogo();
+        int resID = getContext().getResources().getIdentifier(mDrawableName, "drawable", getContext().getPackageName());
+        //int resID = Integer.parseInt(mDrawableName);
 
         teamLogo.setImageResource(resID);
 
@@ -41,4 +41,6 @@ public class ScheduleAdapter extends ArrayAdapter<String[]> {
 
 
     }
+
+
 }

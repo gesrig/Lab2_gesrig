@@ -126,6 +126,16 @@
             android:layout_below="@+id/textView9"
             android:layout_alignParentStart="true" />
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@mipmap/ic_launcher"
+            android:id="@+id/takenPhoto"
+            android:layout_alignParentBottom="true"
+            android:layout_alignEnd="@+id/FinalScore"
+            android:layout_below="@+id/textView10"
+            android:layout_alignStart="@+id/textView6" />
+
     </RelativeLayout>
 
     <Button
