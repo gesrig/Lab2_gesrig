@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/mbb"
+        android:orderInCategory="100"
+        android:title="Men's Basketball"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/wbb"
+        android:orderInCategory="100"
+        android:title="Women's Basketball"
+        app:showAsAction="always" />
+
+    <item android:id="@+id/oncamp"
+        android:orderInCategory="100"
+        android:title="On Campus Event"
+        app:showAsAction="always"    />
+
+    <item android:id="@+id/offcamp"
+        android:orderInCategory="100"
+        android:title="Off Campus Event"
+        app:showAsAction="always"    />
+
+
+</menu>

@@ -1,10 +1,25 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.gregoryesrig24.lab2_gesrig.MainActivity">
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/share"
+    android:icon="@drawable/ic_share_black_24dp"
+    android:orderInCategory="100"
+    android:title="Share"
+    app:showAsAction="always"/>
+
+    <item android:id="@+id/sync"
+    android:icon="@drawable/ic_cached_black_24dp"
+    android:orderInCategory="100"
+    android:title="Sync"
+    app:showAsAction="ifRoom" />
+
+    <item android:id="@+id/settings"
+    android:icon="@drawable/ic_settings_24dp"
+    android:orderInCategory="100"
+    android:title="Settings"
+    app:showAsAction="always"    />
+
+
 </menu>

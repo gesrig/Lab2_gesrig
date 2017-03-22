@@ -1,9 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="MyMaterialTheme" parent="SuperMaterialTheme">
+        <item name="colorPrimary">#03a9f4</item>
+        <item name="colorPrimaryDark">#0288d1</item>
+        <item name="colorAccent">#ffe082</item>
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
+
+    <style name="SuperMaterialTheme" parent="Theme.AppCompat.NoActionBar">
+
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="MyToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorPrimary">#03a9f4</item>
+        <item name="colorPrimaryDark">#0288d1</item>
+        <item name="colorAccent">#ffe082</item>
+        <item name="android:background">#03a9f4</item>
+        <!--<item name="android:elevation">20dp</item>-->
+    </style>
+
 </resources>

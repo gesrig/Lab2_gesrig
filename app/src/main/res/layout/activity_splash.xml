@@ -59,7 +59,7 @@
         android:layout_height="70dp"
         android:id="@+id/textView5"
         android:textSize="30sp"
-        android:textColor="@color/colorYell"/>
+        android:textColor="@color/colorPrimaryDark"/>
 
     <ImageView
         android:layout_width="270dip"

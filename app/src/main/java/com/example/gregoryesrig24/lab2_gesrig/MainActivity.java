@@ -2,10 +2,13 @@ package com.example.gregoryesrig24.lab2_gesrig;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,12 +22,28 @@ import android.widget.TextView;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.gregoryesrig24.lab2_gesrig.R.id.FinalScore;
 import static com.example.gregoryesrig24.lab2_gesrig.R.id.scheduleListView;
+import static com.example.gregoryesrig24.lab2_gesrig.R.id.settings;
+import static com.example.gregoryesrig24.lab2_gesrig.R.id.toolbar;
+import static com.example.gregoryesrig24.lab2_gesrig.R.menu.floating_contexual_menu;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    public String gameSchedule(ArrayList<Team> schedule) {
+            StringBuilder sb = new StringBuilder();
+            for (int i=0; i < schedule.size(); i++) {
+                sb.append(schedule.get(i).getTeamName());
+                sb.append(" on ");
+                sb.append(schedule.get(i).getGameDate());
+            }
+            String finalstring = sb.toString();
+
+            return finalstring;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,40 +51,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-       // String[] teamnames = {"Ohio State", "Florida State", "Wake Forest", "Boston College", "North Carolina State", "Georgia Tech","North Virginia", "Chicago Sate"};
-        //String[] gamedates = {"Feb.11", "Feb. 14th", "Feb. 18th", "Feb 26th", "March. 1", "March 4th", "March 7th", "March 16th"};
 
-//        String[] OSU = {Integer.toString(R.drawable.osubuckeys), "Ohio State", "Feb. 11", "82-86", "American Airlines Center, Columbus OH", "10-10", "Buckeyes"};
-//        String[] FSU = {Integer.toString(R.drawable.fsuseminoles), "Florida State", "Feb. 14th", "69-68", "Thunder Dome, Tallahasse FL", "10-10", "seminoles"};
-//        String[] WF = {Integer.toString(R.drawable.wakeforest),"Wake Forest", "Feb. 18th", "75-67", "Pauley Pavilion, Durham NC", "10-10", "Devils"};
-//        String[] BC = {Integer.toString(R.drawable.bostcollege), "Boston College", "Feb. 26th", "88-87 OT", "Patriots Stadium, Bostom MA", "10-10", "Eagles"};
-//        String[] NCSU = {Integer.toString(R.drawable.ncstate), "NCSU" , "March 1st", "76-59", "North Carolina Pavilion, Charlottesvile NC", "10-10", "Yellow Jackets"};
-//        String[] GT = {Integer.toString(R.drawable.gtech), "Georgia Tech", "March 4th", "88-79", "Purcell Pavilion, IN", "10-10", "Yellow Jackets"};
-//        String[] NV = {Integer.toString(R.drawable.nova), "NOVO", "March 7th", "54-88", "Community Center Church, Washington DC", "10-10", "Wolverines"};
-//        String[] CSU = {Integer.toString(R.drawable.chicagostate), "Chicago State", "March 16th", "69-0", "This isn't a real school", "10-10", "Dragons"};
+        Toolbar actionBarToolbar = (Toolbar) findViewById(toolbar);
+        setSupportActionBar(actionBarToolbar);
 
-          //final ArrayList<Team> gameinfo = new ArrayList<Team>();
-//        Team team1 = new Team(new String[]{"osubuckeys", "Ohio State", "Feb. 11", "82-86", "American Airlines Center, Columbus OH", "10-10", "Buckeyes"});
-//        Team team2 = new Team(new String[] {"fsuseminoles", "Florida State", "Feb. 14th", "69-68", "Thunder Dome, Tallahasse FL", "10-10", "seminoles"});
-//        Team team3 = new Team(new String [] {"wakeforest","Wake Forest", "Feb. 18th", "75-67", "Pauley Pavilion, Durham NC", "10-10", "Devils"});
-//        Team team4 = new Team(new String [] {"bostcollege", "Boston College", "Feb. 26th", "88-87 OT", "Patriots Stadium, Bostom MA", "10-10", "Eagles"});
-//        Team team5 = new Team(new String[] {"ncstate", "NCSU" , "March 1st", "76-59", "North Carolina Pavilion, Charlottesvile NC", "10-10", "Yellow Jackets"});
-//        Team team6 = new Team(new String [] {"gtech", "Georgia Tech", "March 4th", "88-79", "Purcell Pavilion, IN", "10-10", "Yellow Jackets"});
-//        Team team7 = new Team(new String [] {"nova", "NOVO", "March 7th", "54-88", "Community Center Church, Washington DC", "10-10", "Wolverines"});
-//        Team team8 = new Team(new String [] {"chicagostate", "Chicago State", "March 16th", "69-0", "This isn't a real school", "10-10", "Dragons"});
-//        gameinfo.add(team1);
-//        gameinfo.add(team2);
-//        gameinfo.add(team3);
-//        gameinfo.add(team4);
-//        gameinfo.add(team5);
-//        gameinfo.add(team6);
-//        gameinfo.add(team7);
-//        gameinfo.add(team8);
-
-//Integer.toString(R.drawable.chicagostate)
 
         MyCsvFileReader reader = new MyCsvFileReader(getApplicationContext());
         final ArrayList<Team> gameinfo = reader.readCsvFile(R.raw.schedule);
+
+
 
         ScheduleAdapter scheduleAdapter = new ScheduleAdapter(this, gameinfo);
         final ListView scheduleListView = (ListView) findViewById(R.id.scheduleListView);
@@ -97,24 +91,84 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+    public boolean onCreateOptionsMenu (Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.floating_contexual_menu, menu);
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+    }
+
+    @Override
+
+    public boolean onContextItemSelected(MenuItem item) {
+        int item_id = item.getItemId();
+
+        if (item_id == R.id.wbb) {
+            return true;
+// to be implemented later
+        }
+        else if (item_id== R.id.mbb) {
+            return true;
+        }
+        else if (item_id ==R.id.offcamp) {
+            return true;
+        }
+        else if (item_id==R.id.oncamp) {
             return true;
         }
 
-        return super.onOptionsItemSelected(item);
+        else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int res_id = item.getItemId();
+
+        if (res_id == R.id.share) {
+// code for sharing the schedule
+            MyCsvFileReader reader = new MyCsvFileReader(getApplicationContext());
+            final ArrayList<Team> gameinfo = reader.readCsvFile(R.raw.schedule);
+
+
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(android.content.Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra("android.content.Intent.EXTRA_SUBJECT", "BasketBall Matches");
+            shareIntent.putExtra("android.content.Intent.EXTRA_TEXT", gameSchedule(gameinfo));
+            //startActivity(Intent.createChooser(shareIntent), "Share via");
+        }
+
+        else if (res_id == R.id.sync) {
+// Snackbar with Try Again action
+            final CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorlayout);
+            Snackbar snackbar = Snackbar.make(coordinatorLayout, "Sync is not yet implemented", Snackbar.LENGTH_LONG);
+            snackbar.setAction("Try Again", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Snackbar.make(coordinatorLayout, "Wait for the next few labs. Thank you for your patience", Snackbar.LENGTH_LONG).show();
+                }
+            });
+            snackbar.show();
+        }
+
+
+        else if (res_id == settings) {
+
+            registerForContextMenu(((View) findViewById(R.id.settings)));
+            openContextMenu(((View) findViewById(R.id.settings)));
+            unregisterForContextMenu(((View) findViewById(R.id.settings)));
+
+
+        }
+        return true;
     }
 }
