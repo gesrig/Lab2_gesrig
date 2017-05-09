@@ -58,7 +58,7 @@ public class DetailActivity extends Activity {
 
         setContentView(R.layout.activity_detail);
         bundle = getIntent().getExtras();
-        Team matchItem = (Team) bundle.getSerializable("gameinfo");
+        Team matchItem = (Team) bundle.getSerializable("gameinfo1");
 
 
 //        setContentView(R.layout.activity_detail);
@@ -94,7 +94,16 @@ public class DetailActivity extends Activity {
         teamLogo.setImageResource(resID);
 
         final Button btnOk = (Button) findViewById(R.id.CameraButton);
-        final View.OnClickListener clickListener = new View.OnClickListener() {
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(DetailActivity.this, GalleryActivity.class);
+                //i.putExtra("id", position);
+                startActivity(i);
+            }
+        });
+
+        /*final View.OnClickListener clickListener = new View.OnClickListener() {
             static final int CAMERA_REQUEST = 1;
 
             @Override
@@ -115,9 +124,9 @@ public class DetailActivity extends Activity {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
                 String timestamp = sdf.format(new Date());
                 return "BestMoments" + timestamp + ".jpg";
-            }
+            } */
 
-            protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+           /* protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                 if (resultCode == RESULT_OK) {
                     if (requestCode == CAMERA_REQUEST) {
                         Intent photoGalleryIntent = new Intent(Intent.ACTION_PICK);
@@ -143,21 +152,21 @@ public class DetailActivity extends Activity {
                     }
                 }
 
-            }
+            }*/
             };
-        btnOk.setOnClickListener(clickListener);
+
         //btnOk.onActivityResult()
 
 
-        }
-
-
-
-
-
-
-
 }
+
+
+
+
+
+
+
+
 
 
 

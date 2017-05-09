@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -19,11 +20,15 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-
+import android.database.sqlite.SQLiteDatabase;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 import static com.example.gregoryesrig24.lab2_gesrig.R.id.FinalScore;
 import static com.example.gregoryesrig24.lab2_gesrig.R.id.scheduleListView;
 import static com.example.gregoryesrig24.lab2_gesrig.R.id.settings;
@@ -32,6 +37,9 @@ import static com.example.gregoryesrig24.lab2_gesrig.R.menu.floating_contexual_m
 
 
 public class MainActivity extends AppCompatActivity {
+
+    DBHelper dbHelper;
+
 
     public String gameSchedule(ArrayList<Team> schedule) {
             StringBuilder sb = new StringBuilder();
@@ -49,19 +57,32 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d("SOMETHING", "ITs LIT");
 
+
+        dbHelper = new DBHelper(getApplicationContext());
+        dbHelper.onUpgrade(dbHelper.getWritableDatabase(), 1, 2);
+
+        MyCsvFileReader reader = new MyCsvFileReader(getApplicationContext());
+        final ArrayList<Team> gameinfo = reader.readCsvFile(R.raw.schedule);
+
+        for (Team tm : gameinfo) {
+            dbHelper.insertTeamData(tm);
+        }
+
+        System.out.println(dbHelper.getDatabaseName());
 
 
         Toolbar actionBarToolbar = (Toolbar) findViewById(toolbar);
         setSupportActionBar(actionBarToolbar);
 
 
-        MyCsvFileReader reader = new MyCsvFileReader(getApplicationContext());
-        final ArrayList<Team> gameinfo = reader.readCsvFile(R.raw.schedule);
+        final ArrayList<Team> gameinfo1 = dbHelper.createArrList();
+//        System.out.println(gameinfo1.get(0).getTeamName());
+//        Log.d("gameinfo1",gameinfo1.get(0).getTeamName() );
 
 
-
-        ScheduleAdapter scheduleAdapter = new ScheduleAdapter(this, gameinfo);
+        ScheduleAdapter scheduleAdapter = new ScheduleAdapter(this,gameinfo1 );
         final ListView scheduleListView = (ListView) findViewById(R.id.scheduleListView);
         scheduleListView.setAdapter(scheduleAdapter);
 
@@ -72,8 +93,8 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this , DetailActivity.class);
                 Bundle bundle = new Bundle();
-                Team objects = gameinfo.get(position);
-                bundle.putSerializable("gameinfo", objects);
+                Team objects = gameinfo1.get(position);
+                bundle.putSerializable("gameinfo1", objects);
                 intent.putExtras(bundle);
                 intent.setClass(MainActivity.this, DetailActivity.class);
                 startActivity(intent);
@@ -136,15 +157,15 @@ public class MainActivity extends AppCompatActivity {
         if (res_id == R.id.share) {
 // code for sharing the schedule
             MyCsvFileReader reader = new MyCsvFileReader(getApplicationContext());
-            final ArrayList<Team> gameinfo = reader.readCsvFile(R.raw.schedule);
+            final ArrayList<Team> gameinfo1 = reader.readCsvFile(R.raw.schedule);
 
 
             Intent shareIntent = new Intent();
             shareIntent.setAction(android.content.Intent.ACTION_SEND);
-            shareIntent.setType("text/plain");
-            shareIntent.putExtra("android.content.Intent.EXTRA_SUBJECT", "BasketBall Matches");
-            shareIntent.putExtra("android.content.Intent.EXTRA_TEXT", gameSchedule(gameinfo));
-            //startActivity(Intent.createChooser(shareIntent), "Share via");
+            shareIntent.setType("plan/text");
+            shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "BasketBall Matches");
+            shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, gameSchedule(gameinfo1));
+            startActivity(Intent.createChooser(shareIntent, "Share via"));
         }
 
         else if (res_id == R.id.sync) {
@@ -171,4 +192,10 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
+
+
 }
+
+
+
+
