@@ -42,6 +42,8 @@ public class GalleryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
 
+
+
         dbHelper = new DBHelper(this);
         //Intent i = getIntent();
         //game_id = i.getExtras().getInt("id");

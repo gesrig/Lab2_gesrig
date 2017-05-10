@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:id="@id/toolbar"
+    android:theme="@style/MyToolbarTheme"
+    app:title="Notre Dame Athletics"
+    android:elevation="0dp"
+    app:popupTheme="@style/MyPopupTheme"
+    android:minHeight="68dp">
+
+
+    <!--<include android:id="@+id/share" ></include>-->
+    <!--<include android:id="@+id/settings" ></include>-->
+    <!--<include android:id="@+id/sync"></include>-->
+
+
+</android.support.v7.widget.Toolbar>
